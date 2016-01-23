@@ -48,9 +48,10 @@ h1 {
 		</div>
 
 
-		<div id="left">
-			<img src="/image/001.jpg" />
+	<!--	<div id="left">
+			<img src="/image/001.jpg" />  不能用超链接。。。
 		</div>
+	-->
 
 		<div id="right">
 			<div id="up">窗宽:${requestScope.dicomData.getWindowWidth() } 窗位:${requestScope.dicomData.getWindowCenter() }</div>
