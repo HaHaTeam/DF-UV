@@ -48,27 +48,19 @@ h1 {
 		</div>
 
 
-	<!--	<div id="left">
-			<img src="/image/001.jpg" />  不能用超链接。。。
-		</div>
-	-->
 
 		<div id="right">
-			<div id="up">窗宽:${requestScope.dicomData.getWindowWidth() } 窗位:${requestScope.dicomData.getWindowCenter() }</div>
+			<div id="up">窗宽:${dicomData.getWindowWidth() } 窗位:${dicomData.getWindowCenter() }</div>
 			<div id="down">
 				<p>病人信息</p>
-				姓名:${requestScope.dicomData.getPatientName() }<br>
-				年龄:${requestScope.dicomData.getPatientAge() }<br>
-				性别:${requestScope.dicomData.getPatientSex() }<br>
+				姓名:${dicomData.getPatientName() }<br>
+				年龄:${dicomData.getPatientAge() }<br>
+				性别:${dicomData.getPatientSex() }<br>
 			</div>
 			<div id="footer">
-				<p>就诊日期:</p>${requestScope.dicomData.getStudyDate() }
+				<p>就诊日期:</p>${dicomData.getStudyDate() }
 			</div>
 		</div>
-
-
-
-
 	</div>
 </body>
 </html>

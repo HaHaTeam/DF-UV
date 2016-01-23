@@ -22,9 +22,13 @@ public class Handler {
 	private GetAttributes getAttributes = null;
 
 	@RequestMapping("/upload")
-	public String UploadFile(@RequestParam("file") MultipartFile file) {
+	public String UploadFile(@RequestParam("file") MultipartFile file, Map<String, Object> fileinf) {
 		File tmp = new File("tmp.dcm");
+		DicomData dicomData = new DicomData();
+		Attributes attributes;
 		try {
+			
+			//先存为临时文件
 			tmp.createNewFile();
 			FileOutputStream fileOutputStream = new FileOutputStream(tmp);
 			BufferedInputStream bufferedInputStream = new BufferedInputStream(file.getInputStream());
@@ -33,42 +37,37 @@ public class Handler {
 			byte[] b = new byte[20480];
 			while ((i = bufferedInputStream.read(b)) != -1) {
 				bufferedOutputStream.write(b, 0, i);
-				System.out.println(i);
 				bufferedOutputStream.flush();
 			}
 			bufferedInputStream.close();
 			bufferedOutputStream.close();
 			fileOutputStream.close();
+			
+			//进行文件解析
 			getAttributes = new GetAttributes(tmp);
+			attributes = getAttributes.getDatasetAttributes();
+			dicomData.setPatientName(
+					attributes.getString(Tag.PatientName) == null ? "无" : attributes.getString(Tag.PatientName));
+			dicomData.setPatientAge(
+					attributes.getString(Tag.PatientAge) == null ? "无" : attributes.getString(Tag.PatientAge));
+			dicomData.setPatientSex(
+					attributes.getString(Tag.PatientSex) == null ? "无" : attributes.getString(Tag.PatientSex));
+			dicomData.setStudyDate(attributes.getDate(Tag.StudyDate).toString() == null ? "无"
+					: attributes.getDate(Tag.StudyDate).toString());
+			dicomData.setWindowCenter(
+					attributes.getString(Tag.WindowCenter) == null ? "无" : attributes.getString(Tag.WindowCenter));
+			dicomData.setWindowWidth(
+					attributes.getString(Tag.WindowWidth) == null ? "无" : attributes.getString(Tag.WindowWidth));
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-			return "uploaderror";
-		} catch (IOException e) {
-			e.printStackTrace();
-			return "uploaderror";
-		}
-		return "success";
-	}
-
-	@RequestMapping("/onlineview")
-	public String onlineview(Map<String, Object> fileinf) {
-		DicomData dicomData = new DicomData();
-		Attributes attributes;
-		try {
-			attributes = getAttributes.getDatasetAttributes();
-			dicomData.setPatientName(attributes.getString(Tag.PatientName)==null?"无":attributes.getString(Tag.PatientName));
-			dicomData.setPatientAge(attributes.getString(Tag.PatientAge)==null?"无":attributes.getString(Tag.PatientAge));
-			dicomData.setPatientSex(attributes.getString(Tag.PatientSex)==null?"无":attributes.getString(Tag.PatientSex));
-			dicomData.setStudyDate(attributes.getDate(Tag.StudyDate).toString()==null?"无":attributes.getDate(Tag.StudyDate).toString());
-			dicomData.setWindowCenter(attributes.getString(Tag.WindowCenter)==null?"无":attributes.getString(Tag.WindowCenter));
-			dicomData.setWindowWidth(attributes.getString(Tag.WindowWidth)==null?"无":attributes.getString(Tag.WindowWidth));
+			return "error";
 		} catch (IOException e) {
 			e.printStackTrace();
 			return "error";
 		}
+		
 		fileinf.put("dicomData", dicomData);
-		System.out.println(dicomData);
 		return "onlineview";
 	}
-
 }
