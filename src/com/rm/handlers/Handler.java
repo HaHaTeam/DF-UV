@@ -70,4 +70,10 @@ public class Handler {
 		fileinf.put("dicomData", dicomData);
 		return "onlineview";
 	}
+	
+	
+	@RequestMapping("/back")
+	public String back(){
+		return "index";
+	}
 }
