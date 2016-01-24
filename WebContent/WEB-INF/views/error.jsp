@@ -8,6 +8,6 @@
 </head>
 <body>
 <h2>文件解析失败</h2>
-<a href="back">返回重新上传</a>
+<a href="index">返回重新上传</a>
 </body>
 </html>

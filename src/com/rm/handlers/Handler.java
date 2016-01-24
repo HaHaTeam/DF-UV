@@ -22,16 +22,16 @@ public class Handler {
 	private GetAttributes getAttributes = null;
 
 	@RequestMapping("/upload")
-	public String UploadFile(@RequestParam("file") MultipartFile file, Map<String, Object> fileinf){
-		File tmp = new File(Thread.currentThread().getContextClassLoader().getResource("").getPath()+"tmp.dcm");
-		
+	public String UploadFile(@RequestParam("file") MultipartFile file, Map<String, Object> fileinf) {
+		File tmp = new File(Thread.currentThread().getContextClassLoader().getResource("").getPath() + "tmp.dcm");
+
 		DicomData dicomData = new DicomData();
 		Attributes attributes;
 		try {
-			
-			//先存为临时文件
+
+			// 先存为临时文件
 			System.out.println(tmp.getCanonicalPath());
-			
+
 			FileOutputStream fileOutputStream = new FileOutputStream(tmp);
 			BufferedInputStream bufferedInputStream = new BufferedInputStream(file.getInputStream());
 			BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
@@ -44,8 +44,8 @@ public class Handler {
 			bufferedInputStream.close();
 			bufferedOutputStream.close();
 			fileOutputStream.close();
-			
-			//进行文件解析
+
+			// 进行文件解析
 			getAttributes = new GetAttributes(tmp);
 			attributes = getAttributes.getDatasetAttributes();
 			dicomData.setPatientName(
@@ -63,19 +63,15 @@ public class Handler {
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-			return "error";
+			return "redirect:error";
 		} catch (IOException e) {
 			e.printStackTrace();
-			return "error";
+			return "redirect:error";
 		}
-		
+
 		fileinf.put("dicomData", dicomData);
-		return "onlineview";
-	}
-	
-	
-	@RequestMapping("/back")
-	public String back(){
-		return "index";
+		tmp.delete();
+		System.out.println("临时文件删除成功！");
+		return "redirect:onlineview";
 	}
 }

@@ -14,8 +14,13 @@
 	<property name="suffix" value=".jsp"></property>
 </bean>
 
+<!-- SpringMVC上传文件 -->
 <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 	<property name="defaultEncoding" value="utf-8"></property>
 	<property name="maxUploadSize" value="5242880"></property>
 </bean>
+
+<!-- 实现直接跳转 -->
+<mvc:view-controller path="/index" view-name="index"/>
+<mvc:annotation-driven></mvc:annotation-driven>
 </beans>
