@@ -22,14 +22,16 @@ public class Handler {
 	private GetAttributes getAttributes = null;
 
 	@RequestMapping("/upload")
-	public String UploadFile(@RequestParam("file") MultipartFile file, Map<String, Object> fileinf) {
+	public String UploadFile(@RequestParam("file") MultipartFile file, Map<String, Object> fileinf){
 		File tmp = new File("tmp.dcm");
+		
 		DicomData dicomData = new DicomData();
 		Attributes attributes;
 		try {
 			
 			//先存为临时文件
-			tmp.createNewFile();
+			System.out.println(tmp.getCanonicalPath());
+			
 			FileOutputStream fileOutputStream = new FileOutputStream(tmp);
 			BufferedInputStream bufferedInputStream = new BufferedInputStream(file.getInputStream());
 			BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
