@@ -72,6 +72,6 @@ public class Handler {
 		fileinf.put("dicomData", dicomData);
 		tmp.delete();
 		System.out.println("临时文件删除成功！");
-		return "redirect:onlineview";
+		return "onlineview";
 	}
 }
