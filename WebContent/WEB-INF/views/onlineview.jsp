@@ -46,9 +46,6 @@ h1 {
 		<div id="header">
 			<h1 align="center">在线浏览</h1>
 		</div>
-
-
-
 		<div id="right">
 			<div id="up">窗宽:${dicomData.getWindowWidth() } 窗位:${dicomData.getWindowCenter() }</div>
 			<div id="down">

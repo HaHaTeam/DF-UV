@@ -63,10 +63,10 @@ public class Handler {
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-			return "redirect:error";
+			return "error";
 		} catch (IOException e) {
 			e.printStackTrace();
-			return "redirect:error";
+			return "error";
 		}
 
 		fileinf.put("dicomData", dicomData);
