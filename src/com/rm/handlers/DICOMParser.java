@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.rm.entity.DicomData;
 
 @Controller
-public class Handler {
+public class DICOMParser {
 	private GetAttributes getAttributes = null;
 
 	@RequestMapping("/upload")
