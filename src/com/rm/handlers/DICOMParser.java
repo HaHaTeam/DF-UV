@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import org.dcm4che3.data.Attributes;
@@ -48,14 +49,16 @@ public class DICOMParser {
 			// 进行文件解析
 			getAttributes = new GetAttributes(tmp);
 			attributes = getAttributes.getDatasetAttributes();
+			SimpleDateFormat sdf1=new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat sdf2=new SimpleDateFormat("HH:mm:ss");
 			dicomData.setPatientName(
 					attributes.getString(Tag.PatientName) == null ? "无" : attributes.getString(Tag.PatientName));
 			dicomData.setPatientAge(
 					attributes.getString(Tag.PatientAge) == null ? "无" : attributes.getString(Tag.PatientAge));
 			dicomData.setPatientSex(
 					attributes.getString(Tag.PatientSex) == null ? "无" : attributes.getString(Tag.PatientSex));
-			dicomData.setStudyDate(attributes.getDate(Tag.StudyDate).toString() == null ? "无"
-					: attributes.getDate(Tag.StudyDate).toString());
+			dicomData.setStudyDate((sdf1.format(attributes.getDate(Tag.StudyDate))+" "+sdf2.format(attributes.getDate(Tag.StudyTime))) == null ? "无"
+					:(sdf1.format(attributes.getDate(Tag.StudyDate))+" "+sdf2.format(attributes.getDate(Tag.StudyTime))));
 			dicomData.setWindowCenter(
 					attributes.getString(Tag.WindowCenter) == null ? "无" : attributes.getString(Tag.WindowCenter));
 			dicomData.setWindowWidth(
