@@ -2,12 +2,18 @@ package com.rm.handlers;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.IOUtils;
 import org.dcm4che3.data.Attributes;
 import org.dcm4che3.data.Tag;
 import org.springframework.stereotype.Controller;
@@ -20,19 +26,21 @@ import com.rm.entity.DicomData;
 @Controller
 public class DICOMParser {
 	private GetAttributes getAttributes = null;
+	private File dcmTmp = new File(
+			Thread.currentThread().getContextClassLoader().getResource("").getPath() + "tmp.dcm");
+	private File jpgTmp = new File(
+			Thread.currentThread().getContextClassLoader().getResource("").getPath() + "jpgTmp.jpg");
 
 	@RequestMapping("/upload")
 	public String UploadFile(@RequestParam("file") MultipartFile file, Map<String, Object> fileinf) {
-		File tmp = new File(Thread.currentThread().getContextClassLoader().getResource("").getPath() + "tmp.dcm");
-
 		DicomData dicomData = new DicomData();
 		Attributes attributes;
 		try {
 
 			// 先存为临时文件
-			System.out.println(tmp.getCanonicalPath());
+			System.out.println(dcmTmp.getCanonicalPath());
 
-			FileOutputStream fileOutputStream = new FileOutputStream(tmp);
+			FileOutputStream fileOutputStream = new FileOutputStream(dcmTmp);
 			BufferedInputStream bufferedInputStream = new BufferedInputStream(file.getInputStream());
 			BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
 			int i = 0;
@@ -46,16 +54,20 @@ public class DICOMParser {
 			fileOutputStream.close();
 
 			// 进行文件解析
-			getAttributes = new GetAttributes(tmp);
+			getAttributes = new GetAttributes(dcmTmp);
 			attributes = getAttributes.getDatasetAttributes();
+			SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm:ss");
 			dicomData.setPatientName(
 					attributes.getString(Tag.PatientName) == null ? "无" : attributes.getString(Tag.PatientName));
 			dicomData.setPatientAge(
 					attributes.getString(Tag.PatientAge) == null ? "无" : attributes.getString(Tag.PatientAge));
 			dicomData.setPatientSex(
 					attributes.getString(Tag.PatientSex) == null ? "无" : attributes.getString(Tag.PatientSex));
-			dicomData.setStudyDate(attributes.getDate(Tag.StudyDate).toString() == null ? "无"
-					: attributes.getDate(Tag.StudyDate).toString());
+			dicomData.setStudyDate((sdf1.format(attributes.getDate(Tag.StudyDate)) + " "
+					+ sdf2.format(attributes.getDate(Tag.StudyTime))) == null ? "无"
+							: (sdf1.format(attributes.getDate(Tag.StudyDate)) + " "
+									+ sdf2.format(attributes.getDate(Tag.StudyTime))));
 			dicomData.setWindowCenter(
 					attributes.getString(Tag.WindowCenter) == null ? "无" : attributes.getString(Tag.WindowCenter));
 			dicomData.setWindowWidth(
@@ -68,10 +80,22 @@ public class DICOMParser {
 			e.printStackTrace();
 			return "error";
 		}
-
 		fileinf.put("dicomData", dicomData);
-		tmp.delete();
-		System.out.println("临时文件删除成功！");
+		// dcmTmp.delete();
+		// System.out.println("临时文件删除成功！");
 		return "onlineview";
+	}
+
+	@RequestMapping("/getImage")
+	public void getImage(HttpServletResponse response) {
+		response.setContentType("image/jpg");
+		GetImageBuffer getImageBuffer = new GetImageBuffer(dcmTmp, jpgTmp);
+		byte[] buf=getImageBuffer.getJpgBytes();
+		InputStream in1 = new ByteArrayInputStream(buf);
+		  try {
+			IOUtils.copy(in1, response.getOutputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

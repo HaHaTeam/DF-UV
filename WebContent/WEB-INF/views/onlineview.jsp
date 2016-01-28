@@ -8,7 +8,6 @@
 <style type="text/css">
 #container {
 	border: 1px solid white;
-	margin: 0px;
 	width: 100%;
 }
 
@@ -19,26 +18,22 @@
 }
 
 #left {
-	float: left;
-	margin: 0px;
-	padding: 1em;
-	width: 75%;
+	display: table-cell;
+	text-align: center;
+	vertical-align: middle;
+	height: 500px;
+	width: 600px;
+	float:left;
 }
 
 #right {
-	margin: 0px;
 	padding: 1em;
 }
 
-h1 {
-	margin: 0px;
-	padding: 0px;
+#up, #footer,#down {
+	text-align: center;
 }
 
-#up, #down, #footer {
-	margin: 0px;
-	padding: 1em;
-}
 </style>
 </head>
 <body>
@@ -46,16 +41,31 @@ h1 {
 		<div id="header">
 			<h1 align="center">在线浏览</h1>
 		</div>
+		<div id="left">
+			<img alt="jpg图像" src="getImage">
+		</div>
+
 		<div id="right">
-			<div id="up">窗宽:${dicomData.getWindowWidth() } 窗位:${dicomData.getWindowCenter() }</div>
+			<form action="" method="post">
+				<div id="up">
+					<h3>图像调节</h3>
+					窗宽:&nbsp;&nbsp;<input type="text"
+						value="${dicomData.getWindowWidth()}"><br> <br>
+					窗位:&nbsp;&nbsp;<input type="text"
+						value="${dicomData.getWindowCenter()}"><br> <br>
+					<input type="submit" value="提交">
+				</div>
+
+			</form>
 			<div id="down">
-				<p>病人信息</p>
+				<h3 align="center">病人信息</h3>
 				姓名:${dicomData.getPatientName() }<br>
 				年龄:${dicomData.getPatientAge() }<br>
 				性别:${dicomData.getPatientSex() }<br>
 			</div>
 			<div id="footer">
-				<p>就诊日期:</p>${dicomData.getStudyDate() }
+				<h3>就诊日期</h3>
+				${dicomData.getStudyDate() }
 			</div>
 		</div>
 	</div>
