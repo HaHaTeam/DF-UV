@@ -41,7 +41,9 @@
 		<div id="header">
 			<h1 align="center">在线浏览</h1>
 		</div>
-		<div id="left"></div>
+		<div id="left">
+			<img alt="jpg图像" src="getImage">
+		</div>
 
 		<div id="right">
 			<form action="" method="post">
