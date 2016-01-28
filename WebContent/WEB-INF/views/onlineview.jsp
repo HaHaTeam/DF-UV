@@ -8,7 +8,6 @@
 <style type="text/css">
 #container {
 	border: 1px solid white;
-	margin: 0px;
 	width: 100%;
 }
 
@@ -19,24 +18,17 @@
 }
 
 #left {
-	float: left;
-	margin: 0px;
 	padding: 1em;
 	width: 75%;
 }
 
 #right {
-	margin: 0px;
+	float: right;
 	padding: 1em;
 }
 
-h1 {
-	margin: 0px;
-	padding: 0px;
-}
 
 #up, #down, #footer {
-	margin: 0px;
 	padding: 1em;
 }
 </style>
