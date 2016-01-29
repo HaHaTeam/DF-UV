@@ -27,7 +27,7 @@ import com.rm.entity.DicomData;
 public class DICOMParser {
 	private GetAttributes getAttributes = null;
 	private File dcmTmp = new File(
-			Thread.currentThread().getContextClassLoader().getResource("").getPath() + "dcmTmp.dcm");
+			Thread.currentThread().getContextClassLoader().getResource("").getPath() + "tmp.dcm");
 	private File jpgTmp = new File(
 			Thread.currentThread().getContextClassLoader().getResource("").getPath() + "jpgTmp.jpg");
 	private static DicomData dicomData = new DicomData();
@@ -49,7 +49,7 @@ public class DICOMParser {
 			bufferedInputStream.close();
 			bufferedOutputStream.close();
 			fileOutputStream.close();
- 
+
 			// 进行文件解析
 			getAttributes = new GetAttributes(dcmTmp);
 			attributes = getAttributes.getDatasetAttributes();
