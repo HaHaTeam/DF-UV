@@ -7,68 +7,48 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>在线浏览</title>
 <style type="text/css">
-#header {
-	background-color: gray;
-	color: white;
-	padding: 1em;
-	margin: 0;
-}
-
-#con {
-	border: 1 solid;
-	margin: 0;
+#container {
+	border: 1px solid white;
 	width: 100%;
 }
 
+#header {
+	background-color: gray;
+	color: white;
+	padding: 0.5em;
+}
+
 #left {
-	padding: 1em;
+	display: table-cell;
 	text-align: center;
-	height: 600px;
-	width: 750px;
+	vertical-align: middle;
+	height: 500px;
+	width: 600px;
 	float: left;
 }
 
 #right {
 	padding: 1em;
-	font-size: larger;
 }
 
-#up, #down {
+#up, #footer, #down {
 	text-align: center;
-	margin-bottom: 120px;
-}
-
-table {
-	margin: auto;
-}
-
-#footer {
-	text-align: center;
-	font-size: larger;
-}
-
-#back {
-	text-align: right;
-}
-
-span {
-	font-weight: bold;
 }
 </style>
 </head>
 <body>
-	<div id="header">
-		<h1 align="center">在线浏览</h1>
-	</div>
-	<div id="con">
+	<div id="container">
+		<div id="header">
+			<h1 align="center">在线浏览</h1>
+		</div>
 		<div id="left">
-			<img alt="jpg图像" src="getImage" width="100%" height="100%">
+			<img alt="jpg图像" src="getImage">
 		</div>
 
 		<div id="right">
 			<form action="change" method="post">
 				<div id="up">
-					<h2>图像调节</h2>
+					<h3>图像调节</h3>
 					窗宽:&nbsp;&nbsp;<input type="text"
 						value="${dicomData.getWindowWidth()}" name="windowWidth"><br>
 					<br> 窗位:&nbsp;&nbsp;<input type="text"
@@ -77,30 +57,17 @@ span {
 				</div>
 
 			</form>
-			<h2 align="center">病人信息</h2>
-			<table>
-				<tbody>
-					<tr>
-						<td>姓名:</td>
-						<td>${dicomData.getPatientName()}</td>
-					</tr>
-					<tr>
-						<td>年龄:</td>
-						<td>${dicomData.getPatientAge() }</td>
-					</tr>
-					<tr>
-						<td>性别:</td>
-						<td>${dicomData.getPatientSex() }</td>
-					</tr>
-				</tbody>
-			</table>
+			<div id="down">
+				<h3 align="center">病人信息</h3>
+				姓名:${dicomData.getPatientName() }<br>
+				年龄:${dicomData.getPatientAge() }<br>
+				性别:${dicomData.getPatientSex() }<br>
+			</div>
+			<div id="footer">
+				<h3>就诊日期</h3>
+				${dicomData.getStudyDate() }
+			</div>
 		</div>
-	</div>
-	<div id="footer">
-		<span>就诊日期:</span>${dicomData.getStudyDate() }
-	</div>
-	<div id="back">
-		<a href="index">返回首页</a>
 	</div>
 </body>
 </html>
