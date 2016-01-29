@@ -33,10 +33,10 @@ public class GetImageBuffer {
 		ImageReader imageReader = (ImageReader) iterator.next();
 		DicomImageReadParam dicomImageReadParam = (DicomImageReadParam) imageReader.getDefaultReadParam();
 		
-		if((windowCenter!=0)&&(windowWidth!=0)){
+//		if((windowCenter!=0)&&(windowWidth!=0)){
 			dicomImageReadParam.setWindowCenter(windowCenter);
 			dicomImageReadParam.setWindowWidth(windowWidth);
-		}
+//		}
 		
 		try {
 			iis = ImageIO.createImageInputStream(dcmTmp);

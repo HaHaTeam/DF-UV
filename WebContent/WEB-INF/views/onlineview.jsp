@@ -7,42 +7,64 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>在线浏览</title>
 <style type="text/css">
-#container {
-	border: 1px solid white;
-	width: 100%;
-}
-
 #header {
 	background-color: gray;
 	color: white;
-	padding: 0.5em;
+	padding: 1em;
+	margin: 0;
+}
+
+#con {
+	border: 1 solid;
+	margin: 0;
+	width: 100%;
 }
 
 #left {
-	display: table-cell;
+	padding: 1em;
 	text-align: center;
-	vertical-align: middle;
-	height: 500px;
-	width: 600px;
+	height: 600px;
+	width: 750px;
 	float: left;
 }
 
 #right {
 	padding: 1em;
+	font-size: larger;
 }
 
-#up, #footer, #down {
+#up, #down {
 	text-align: center;
+	margin-bottom: 120px;
+}
+
+table {
+	margin: auto;
+}
+
+#footer {
+	text-align: center;
+	font-size: larger;
+	margin-top: 20px;
+}
+
+#back {
+	text-align: right;
+}
+
+span {
+	font-weight: bold;
 }
 </style>
 </head>
 <body>
-	<div id="container">
-		<div id="header">
-			<h1 align="center">在线浏览</h1>
-		</div>
+	<div id="header">
+		<h1 align="center">在线浏览</h1>
+	</div>
+
+	<div id="con">
 		<div id="left">
-			<img alt="jpg图像" src="getImage">
+			<img alt="jpg图像" src="getImage" width="100%" height="100%">
 		</div>
 
 		<div id="right">
@@ -59,17 +81,37 @@
 				</div>
 
 			</form>
-			<div id="down">
-				<h3 align="center">病人信息</h3>
-				姓名:${dicomData.getPatientName() }<br>
-				年龄:${dicomData.getPatientAge() }<br>
-				性别:${dicomData.getPatientSex() }<br>
+			
+<div id="down">
+				<h2 align="center">病人信息</h2>
+				<table>
+					<tbody>
+						<tr>
+							<td>姓名:</td>
+							<td>${dicomData.getPatientName()}</td>
+						</tr>
+						<tr>
+							<td>年龄:</td>
+							<td>${dicomData.getPatientAge() }</td>
+						</tr>
+						<tr>
+							<td>性别:</td>
+							<td>${dicomData.getPatientSex() }</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
-			<div id="footer">
-				<h3>就诊日期</h3>
-				${dicomData.getStudyDate() }
-			</div>
+
 		</div>
+	</div>
+
+	<div id="footer">
+		<span>就诊日期:</span>${dicomData.getStudyDate() }
+		
+	</div>
+
+	 <div id="back">
+		<div><a href="index">返回首页</a></div>
 	</div>
 </body>
 </html>
