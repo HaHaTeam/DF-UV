@@ -70,7 +70,8 @@ public class DICOMParser {
 			dicomData.setWindowWidth(
 					attributes.getString(Tag.WindowWidth) == null ? "无" : attributes.getString(Tag.WindowWidth));
 			GetImageBuffer getImageBuffer = new GetImageBuffer(dcmTmp, jpgTmp);
-			getImageBuffer.createImage(0,0);
+			getImageBuffer.createImage(Float.valueOf(dicomData.getWindowWidth()),
+					Float.valueOf(dicomData.getWindowCenter()));
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
