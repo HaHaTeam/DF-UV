@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -23,17 +24,16 @@
 	vertical-align: middle;
 	height: 500px;
 	width: 600px;
-	float:left;
+	float: left;
 }
 
 #right {
 	padding: 1em;
 }
 
-#up, #footer,#down {
+#up, #footer, #down {
 	text-align: center;
 }
-
 </style>
 </head>
 <body>
@@ -49,11 +49,19 @@
 			<form action="change" method="post">
 				<div id="up">
 					<h3>图像调节</h3>
+<<<<<<< HEAD
 					窗宽:&nbsp;&nbsp;<input type="text" name="windowWidth"
 						value="${dicomData.getWindowWidth()}"><br> <br>
 					窗位:&nbsp;&nbsp;<input type="text" name="windowCenter"
 						value="${dicomData.getWindowCenter()}"><br> <br>
 					<input type="submit" value="提交">
+=======
+					窗宽:&nbsp;&nbsp;<input type="text"
+						value="${dicomData.getWindowWidth()}" name="windowWidth"><br>
+					<br> 窗位:&nbsp;&nbsp;<input type="text"
+						value="${dicomData.getWindowCenter()}" name="windowCenter"><br>
+					<br> <input type="submit" value="提交">
+>>>>>>> 9a6bd0c53fee275766e95dfc96b1efd359fc036f
 				</div>
 
 			</form>

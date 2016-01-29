@@ -43,16 +43,20 @@ public class DICOMParser {
 			Thread.currentThread().getContextClassLoader().getResource("").getPath() + "tmp.dcm");
 	private File jpgTmp = new File(
 			Thread.currentThread().getContextClassLoader().getResource("").getPath() + "jpgTmp.jpg");
+<<<<<<< HEAD
 	private DicomData dicomData = new DicomData();
 	@RequestMapping("/upload")
 	public String UploadFile(@RequestParam("file") MultipartFile file, Map<String, Object> fileinf) {
 		
+=======
+	private static DicomData dicomData = new DicomData();
+
+	@RequestMapping("/upload")
+	public String UploadFile(@RequestParam("file") MultipartFile file, Map<String, Object> fileinf) {
+>>>>>>> 9a6bd0c53fee275766e95dfc96b1efd359fc036f
 		Attributes attributes;
 		try {
-
 			// 先存为临时文件
-			System.out.println(dcmTmp.getCanonicalPath());
-
 			FileOutputStream fileOutputStream = new FileOutputStream(dcmTmp);
 			BufferedInputStream bufferedInputStream = new BufferedInputStream(file.getInputStream());
 			BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
@@ -85,6 +89,8 @@ public class DICOMParser {
 					attributes.getString(Tag.WindowCenter) == null ? "无" : attributes.getString(Tag.WindowCenter));
 			dicomData.setWindowWidth(
 					attributes.getString(Tag.WindowWidth) == null ? "无" : attributes.getString(Tag.WindowWidth));
+			GetImageBuffer getImageBuffer = new GetImageBuffer(dcmTmp, jpgTmp);
+			getImageBuffer.createImage(0,0);
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -106,10 +112,31 @@ public class DICOMParser {
 		byte[] buf = getImageBuffer.getJpgBytes();
 		InputStream in1 = new ByteArrayInputStream(buf);
 		try {
+<<<<<<< HEAD
+=======
+			
+>>>>>>> 9a6bd0c53fee275766e95dfc96b1efd359fc036f
 			IOUtils.copy(in1, response.getOutputStream());
+			response.getOutputStream().close();
+			in1.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+	}
+
+	@RequestMapping("/change")
+	public String change(@RequestParam("windowWidth") float windowWidth,
+			@RequestParam("windowCenter") float windowCenter, Map<String, Object> fileinf) {
+		dicomData.setWindowCenter(String.valueOf((int) windowCenter));
+		dicomData.setWindowWidth(String.valueOf((int) windowWidth));
+		GetImageBuffer getImageBuffer = new GetImageBuffer(dcmTmp, jpgTmp);
+		getImageBuffer.createImage(Float.valueOf(dicomData.getWindowWidth()),
+				Float.valueOf(dicomData.getWindowCenter()));
+		System.out.println(dicomData);
+		fileinf.remove("dicomData");
+		fileinf.put("dicomData", dicomData);
+		return "onlineview";
 	}
 
 //	private static ResourceBundle rb = ResourceBundle.getBundle("org.dcm4che3.tool.dcm2jpg.messages");
