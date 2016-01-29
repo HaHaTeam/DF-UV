@@ -71,6 +71,7 @@ span {
 			<form action="change" method="post">
 				<div id="up">
 					<h2>图像调节</h2>
+
 					窗宽:&nbsp;&nbsp;<input type="text"
 						value="${dicomData.getWindowWidth()}" name="windowWidth"><br>
 					<br> 窗位:&nbsp;&nbsp;<input type="text"
@@ -106,10 +107,12 @@ span {
 
 	<div id="footer">
 		<span>就诊日期:</span>${dicomData.getStudyDate() }
+
 	</div>
 
 	<div id="back">
 		<a href="index">返回首页</a>
+
 	</div>
 </body>
 </html>
