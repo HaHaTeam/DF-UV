@@ -11,24 +11,16 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
-import javax.imageio.ImageWriteParam;
-import javax.imageio.ImageWriter;
-import javax.imageio.stream.ImageOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.cli.OptionBuilder;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.PatternOptionBuilder;
+
 import org.apache.commons.io.IOUtils;
 import org.dcm4che3.data.Attributes;
 import org.dcm4che3.data.Tag;
-import org.dcm4che3.imageio.codec.ImageWriterFactory.ImageWriterParam;
 import org.dcm4che3.imageio.plugins.dcm.DicomImageReadParam;
-import org.dcm4che3.tool.common.CLIUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,17 +35,12 @@ public class DICOMParser {
 			Thread.currentThread().getContextClassLoader().getResource("").getPath() + "tmp.dcm");
 	private File jpgTmp = new File(
 			Thread.currentThread().getContextClassLoader().getResource("").getPath() + "jpgTmp.jpg");
-<<<<<<< HEAD
-	private DicomData dicomData = new DicomData();
-	@RequestMapping("/upload")
-	public String UploadFile(@RequestParam("file") MultipartFile file, Map<String, Object> fileinf) {
-		
-=======
+
 	private static DicomData dicomData = new DicomData();
 
 	@RequestMapping("/upload")
 	public String UploadFile(@RequestParam("file") MultipartFile file, Map<String, Object> fileinf) {
->>>>>>> 9a6bd0c53fee275766e95dfc96b1efd359fc036f
+
 		Attributes attributes;
 		try {
 			// 先存为临时文件
@@ -112,10 +99,6 @@ public class DICOMParser {
 		byte[] buf = getImageBuffer.getJpgBytes();
 		InputStream in1 = new ByteArrayInputStream(buf);
 		try {
-<<<<<<< HEAD
-=======
-			
->>>>>>> 9a6bd0c53fee275766e95dfc96b1efd359fc036f
 			IOUtils.copy(in1, response.getOutputStream());
 			response.getOutputStream().close();
 			in1.close();

@@ -49,19 +49,13 @@
 			<form action="change" method="post">
 				<div id="up">
 					<h3>图像调节</h3>
-<<<<<<< HEAD
-					窗宽:&nbsp;&nbsp;<input type="text" name="windowWidth"
-						value="${dicomData.getWindowWidth()}"><br> <br>
-					窗位:&nbsp;&nbsp;<input type="text" name="windowCenter"
-						value="${dicomData.getWindowCenter()}"><br> <br>
-					<input type="submit" value="提交">
-=======
+
 					窗宽:&nbsp;&nbsp;<input type="text"
 						value="${dicomData.getWindowWidth()}" name="windowWidth"><br>
 					<br> 窗位:&nbsp;&nbsp;<input type="text"
 						value="${dicomData.getWindowCenter()}" name="windowCenter"><br>
 					<br> <input type="submit" value="提交">
->>>>>>> 9a6bd0c53fee275766e95dfc96b1efd359fc036f
+
 				</div>
 
 			</form>
