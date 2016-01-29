@@ -46,12 +46,12 @@
 		</div>
 
 		<div id="right">
-			<form action="" method="post">
+			<form action="change" method="post">
 				<div id="up">
 					<h3>图像调节</h3>
-					窗宽:&nbsp;&nbsp;<input type="text"
+					窗宽:&nbsp;&nbsp;<input type="text" name="windowWidth"
 						value="${dicomData.getWindowWidth()}"><br> <br>
-					窗位:&nbsp;&nbsp;<input type="text"
+					窗位:&nbsp;&nbsp;<input type="text" name="windowCenter"
 						value="${dicomData.getWindowCenter()}"><br> <br>
 					<input type="submit" value="提交">
 				</div>

@@ -9,13 +9,26 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.ResourceBundle;
 
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.cli.OptionBuilder;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.PatternOptionBuilder;
 import org.apache.commons.io.IOUtils;
 import org.dcm4che3.data.Attributes;
 import org.dcm4che3.data.Tag;
+import org.dcm4che3.imageio.codec.ImageWriterFactory.ImageWriterParam;
+import org.dcm4che3.imageio.plugins.dcm.DicomImageReadParam;
+import org.dcm4che3.tool.common.CLIUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,10 +43,10 @@ public class DICOMParser {
 			Thread.currentThread().getContextClassLoader().getResource("").getPath() + "tmp.dcm");
 	private File jpgTmp = new File(
 			Thread.currentThread().getContextClassLoader().getResource("").getPath() + "jpgTmp.jpg");
-
+	private DicomData dicomData = new DicomData();
 	@RequestMapping("/upload")
 	public String UploadFile(@RequestParam("file") MultipartFile file, Map<String, Object> fileinf) {
-		DicomData dicomData = new DicomData();
+		
 		Attributes attributes;
 		try {
 
@@ -90,12 +103,32 @@ public class DICOMParser {
 	public void getImage(HttpServletResponse response) {
 		response.setContentType("image/jpg");
 		GetImageBuffer getImageBuffer = new GetImageBuffer(dcmTmp, jpgTmp);
-		byte[] buf=getImageBuffer.getJpgBytes();
+		byte[] buf = getImageBuffer.getJpgBytes();
 		InputStream in1 = new ByteArrayInputStream(buf);
-		  try {
+		try {
 			IOUtils.copy(in1, response.getOutputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+//	private static ResourceBundle rb = ResourceBundle.getBundle("org.dcm4che3.tool.dcm2jpg.messages");
+
+	@RequestMapping("/change")
+	public String changeImage(@RequestParam("windowWidth") float windowWidth,
+			@RequestParam("windowCenter") float windowCenter,Map<String, Object> fileinf) {
+		Iterator<ImageReader> iteratorReader =ImageIO.getImageReadersByFormatName("DICOM");
+		ImageReader imageReader = (ImageReader) iteratorReader.next();
+		DicomImageReadParam param =
+				(DicomImageReadParam) imageReader.getDefaultReadParam();
+		param.setWindowCenter(windowCenter);
+		param.setWindowWidth(windowWidth);
+		
+		dicomData.setWindowCenter(String.valueOf((int)windowCenter));
+		dicomData.setWindowWidth(String.valueOf((int)windowWidth));
+		fileinf.put("dicomData", dicomData);
+		return "onlineview";
+		
+		
 	}
 }
