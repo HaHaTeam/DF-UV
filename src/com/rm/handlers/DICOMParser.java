@@ -111,6 +111,9 @@ public class DICOMParser {
 	@RequestMapping("/change")
 	public String change(@RequestParam("windowWidth") float windowWidth,
 			@RequestParam("windowCenter") float windowCenter, Map<String, Object> fileinf) {
+		if(windowWidth<=0){
+			return "error";
+		}
 		dicomData.setWindowCenter(String.valueOf((int) windowCenter));
 		dicomData.setWindowWidth(String.valueOf((int) windowWidth));
 		GetImageBuffer getImageBuffer = new GetImageBuffer(dcmTmp, jpgTmp);
