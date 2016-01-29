@@ -20,12 +20,14 @@ public class GetAttributes {
 	public Attributes getFileMetaInformationAttributes() throws IOException {
 		DicomInputStream dicomInputStream = new DicomInputStream(src);
 		Attributes attributes = dicomInputStream.getFileMetaInformation();
+		dicomInputStream.close();
 		return attributes;
 	}
 
 	public Attributes getDatasetAttributes() throws IOException {
 		DicomInputStream dicomInputStream = new DicomInputStream(src);
 		Attributes attributes = dicomInputStream.readDataset(-1, Tag.PixelData);
+		dicomInputStream.close();
 		return attributes;
 	}
 
