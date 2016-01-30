@@ -66,12 +66,15 @@ public class DICOMParser {
 							: (sdf1.format(attributes.getDate(Tag.StudyDate)) + " "
 									+ sdf2.format(attributes.getDate(Tag.StudyTime))));
 			dicomData.setWindowCenter(
-					attributes.getString(Tag.WindowCenter) == null ? "无" : attributes.getString(Tag.WindowCenter));
+					attributes.getString(Tag.WindowCenter) == null ? "无法调节" : attributes.getString(Tag.WindowCenter));
 			dicomData.setWindowWidth(
-					attributes.getString(Tag.WindowWidth) == null ? "无" : attributes.getString(Tag.WindowWidth));
+					attributes.getString(Tag.WindowWidth) == null ? "无法调节" : attributes.getString(Tag.WindowWidth));
 			GetImageBuffer getImageBuffer = new GetImageBuffer(dcmTmp, jpgTmp);
-			getImageBuffer.createImage(Float.valueOf(dicomData.getWindowWidth()),
-					Float.valueOf(dicomData.getWindowCenter()));
+			if ((!dicomData.getWindowCenter().equals("无法调节")) && (!dicomData.getWindowWidth().equals("无法调节"))) {
+				getImageBuffer.setWidthAndCenter(Float.valueOf(dicomData.getWindowWidth()),
+						Float.valueOf(dicomData.getWindowCenter()));
+			}
+			getImageBuffer.createImage();
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -93,24 +96,25 @@ public class DICOMParser {
 		byte[] buf = getImageBuffer.getJpgBytes();
 		InputStream in1 = new ByteArrayInputStream(buf);
 		try {
-			
+
 			IOUtils.copy(in1, response.getOutputStream());
 			response.getOutputStream().close();
 			in1.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@RequestMapping("/change")
-	public String change(@RequestParam("windowWidth") float windowWidth,
-			@RequestParam("windowCenter") float windowCenter, Map<String, Object> fileinf) {
-		dicomData.setWindowCenter(String.valueOf((int) windowCenter));
-		dicomData.setWindowWidth(String.valueOf((int) windowWidth));
+	public String change(@RequestParam("windowWidth") String windowWidth,
+			@RequestParam("windowCenter") String windowCenter, Map<String, Object> fileinf) {
+		dicomData.setWindowCenter(windowCenter);
+		dicomData.setWindowWidth(windowWidth);
 		GetImageBuffer getImageBuffer = new GetImageBuffer(dcmTmp, jpgTmp);
-		getImageBuffer.createImage(Float.valueOf(dicomData.getWindowWidth()),
+		getImageBuffer.setWidthAndCenter(Float.valueOf(dicomData.getWindowWidth()),
 				Float.valueOf(dicomData.getWindowCenter()));
+		getImageBuffer.createImage();
 		System.out.println(dicomData);
 		fileinf.remove("dicomData");
 		fileinf.put("dicomData", dicomData);
