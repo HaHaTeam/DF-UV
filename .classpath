@@ -91,6 +91,5 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-expression-4.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-web-4.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-webmvc-4.0.5.RELEASE.jar"/>
-	<classpathentry kind="lib" path="D:/MyLib/jakarta-taglibs-standard-1.1.2/lib/jstl.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -1,20 +1,19 @@
 package com.rm.handlers;
 
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Iterator;
+
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.FileImageInputStream;
 import javax.imageio.stream.ImageInputStream;
+
 import org.dcm4che3.imageio.plugins.dcm.DicomImageReadParam;
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
 public class GetImageBuffer {
 	private File dcmTmp = null;
@@ -48,12 +47,20 @@ public class GetImageBuffer {
 			iis = ImageIO.createImageInputStream(dcmTmp);
 			imageReader.setInput(iis, false);
 			myImage = imageReader.read(0, dicomImageReadParam);
-			OutputStream jpgoutputStream = new BufferedOutputStream(new FileOutputStream(jpgTmp));
-			JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(jpgoutputStream);
-			encoder.encode(myImage);
-			iis.close();
-			jpgoutputStream.flush();
-			jpgoutputStream.close();
+			
+			Image image=myImage.getScaledInstance(128, 128, Image.SCALE_SMOOTH);
+			BufferedImage target=new BufferedImage(128, 128, BufferedImage.TYPE_INT_BGR);
+			Graphics g = target.getGraphics();  
+			g.drawImage(image, 0, 0, null);
+			g.dispose(); 
+			ImageIO.write(target, "jpg", jpgTmp); 
+			
+//			OutputStream jpgoutputStream = new BufferedOutputStream(new FileOutputStream(jpgTmp));
+//			JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(jpgoutputStream);
+//			encoder.encode(myImage);
+//			iis.close();
+//			jpgoutputStream.flush();
+//			jpgoutputStream.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
